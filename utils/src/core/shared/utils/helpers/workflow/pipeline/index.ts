@@ -44,7 +44,7 @@ export class PipelineWorkflow {
 				return value;
 			} else {
 				this._logger.error(
-					`[Pipeline Step:ERROR] step name: ${name} || error message: ${result.error.message}`
+					`[Pipeline Step:ERROR] step name: ${name} || error message: ${result.error.message} || error stack trace: ${result.error?.stackTrace}`
 				);
 				throw new PipelineWorkflowException(
 					false,
@@ -56,7 +56,7 @@ export class PipelineWorkflow {
 			const error = ex as Error | PipelineWorkflowException;
 			if (!(error instanceof PipelineWorkflowException)) {
 				this._logger.error(
-					`[Pipeline Step:EXCEPTION] step name: ${name} || error message: ${error.message}`
+					`[Pipeline Step:EXCEPTION] step name: ${name} || error message: ${error.message} || error stack trace: ${error?.stack}`
 				);
 			}
 			throw error;
@@ -99,7 +99,7 @@ export class PipelineWorkflow {
 			const error = ex as Error | PipelineWorkflowException;
 			if (!(error instanceof PipelineWorkflowException)) {
 				this._logger.error(
-					`[Pipeline Parallel:EXCEPTION] || error message: ${error.message}`
+					`[Pipeline Parallel:EXCEPTION] || error message: ${error.message} || error stack trace: ${error?.stack}`
 				);
 			}
 			throw error;

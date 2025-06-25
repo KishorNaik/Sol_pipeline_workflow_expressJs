@@ -22,7 +22,7 @@ export const ErrorMiddleware = (
 			message = error.message || 'Something went wrong';
 		}
 
-		logger.error(`[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}`);
+		logger.error(`[${req.method}] || Path::${req.path} || StatusCode:: ${status} || Message:: ${message} || StackTrace:: ${error?.stack}`);
 
 		const errorResponse: DataResponse<undefined> = {
 			Success: false,

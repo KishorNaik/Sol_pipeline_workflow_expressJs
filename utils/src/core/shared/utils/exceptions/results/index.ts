@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 export class ResultError {
 	constructor(
 		public statusCode: StatusCodes,
-		public message: string
+		public message: string,
+    public stackTrace?: string
 	) {}
 }

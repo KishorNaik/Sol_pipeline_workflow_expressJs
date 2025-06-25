@@ -7,7 +7,7 @@ export class ResultFactory {
 		return new Ok(data);
 	}
 
-	public static error<T>(statusCode: StatusCodes, message: string): Result<T, ResultError> {
+	public static error<T>(statusCode: StatusCodes, message: string, stackTrace?: string): Result<T, ResultError> {
 		return new Err(new ResultError(statusCode, message));
 	}
 

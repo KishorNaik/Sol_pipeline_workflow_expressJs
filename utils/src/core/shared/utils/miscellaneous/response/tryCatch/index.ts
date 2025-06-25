@@ -12,7 +12,7 @@ export const tryCatchResultAsync = async <T>(
 		return result;
 	} catch (ex) {
 		const error = ex as Error;
-		return ResultFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+		return ResultFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, error.message, error.stack);
 	}
 };
 
@@ -26,7 +26,7 @@ export const tryCatchFinallyResultAsync = async <T>(
 		return result;
 	} catch (ex) {
 		const error = ex as Error;
-		return ResultFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+		return ResultFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, error.message, error.stack);
 	} finally {
 		if (onFinally) {
 			await onFinally();
