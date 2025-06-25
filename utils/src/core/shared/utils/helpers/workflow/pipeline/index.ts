@@ -106,6 +106,34 @@ export class PipelineWorkflow {
 		}
 	}
 
+  public async ifElseStep<TResult>(
+		name: string,
+		condition: (context: Map<string, any>) => boolean,
+		ifAction: () => Promise<Result<TResult, ResultError>>,
+		elseAction: () => Promise<Result<TResult, ResultError>>
+	): Promise<TResult> {
+		try {
+			const branch = condition(this._context) ? 'IF' : 'ELSE';
+			this._logger.info(
+				`[Pipeline IfElse Step:EVALUATE] step name: ${name} || branch: ${branch}`
+			);
+
+			const result = await this.step(`${name}_${branch}`, () =>
+				condition(this._context) ? ifAction() : elseAction()
+			);
+
+			return result;
+		} catch (ex) {
+			const error = ex as Error | PipelineWorkflowException;
+			if (!(error instanceof PipelineWorkflowException)) {
+				this._logger.error(
+					`[Pipeline IfElse Step:EXCEPTION] step name: ${name} || error message: ${error.message} || stack trace: ${error?.stack}`
+				);
+			}
+			throw error;
+		}
+	}
+
 	public getResult<TResult>(name: string): TResult {
 		if (!this._context.has(name)) {
 			throw new PipelineWorkflowException(
