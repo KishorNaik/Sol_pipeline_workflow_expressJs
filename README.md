@@ -70,11 +70,15 @@ cd <your-project-directory>
     npm run dev
     ```
 
-    #### Example Link
-    - Services
-    https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/tree/main/api/src/modules/producers/apps/features/v1/pubSubDemo/endpoint/services
-    - Endpoint
-    https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/blob/main/api/src/modules/producers/apps/features/v1/pubSubDemo/endpoint/index.ts
+#### Example Link
+- Services
+https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/tree/main/api/src/modules/demo/apps/features/v1/featurePost/endpoint/services
 
-    #### Helper
-    https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/tree/main/utils/src/core/shared/utils/helpers/workflow
+- Pipeline Demo Endpoint
+ https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/blob/main/api/src/modules/demo/apps/features/v1/featurePost/endpoint/index.ts
+    - Test Endpoint
+    https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/blob/main/api/src/modules/demo/tests/integration/features/v1/featurePost/index.test.ts
+
+
+#### Helper
+https://github.com/KishorNaik/Sol_pipeline_workflow_expressJs/tree/main/utils/src/core/shared/utils/helpers/workflow
