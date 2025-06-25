@@ -1,4 +1,3 @@
-import { consumerModules } from './consumers/consumers.Module';
-import { producerModules } from './producers/producers.Module';
+import { demoModule } from "./demo/demo.Module";
 
-export const modulesFederation: Function[] = [...producerModules, ...consumerModules];
+export const modulesFederation: Function[] = [...demoModule];

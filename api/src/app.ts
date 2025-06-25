@@ -10,14 +10,16 @@ import morgan from 'morgan';
 import { useExpressServer, getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
-import { ErrorMiddleware } from '@middlewares/error.middleware';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@/config/env';
+import { ErrorMiddleware } from '@/middlewares/exception';
 import { logger, stream } from '@/shared/utils/helpers/loggers';
 import actuator from 'express-actuator';
-import { rateLimitMiddleware } from './middlewares/rateLimit.middleware';
-import traceMiddleware from './middlewares/trace.middleware';
-import httpLoggerMiddleware from './middlewares/httpLogger.middleware';
+import { rateLimitMiddleware } from './middlewares/security/rateLimit';
+import traceMiddleware from './middlewares/loggers/trace';
+import httpLoggerMiddleware from './middlewares/loggers/http';
 import { BullMqRunner, RabbitMqRunner, KafkaRunner, PusherRunner } from '@kishornaik/utils';
+import { ipTrackerMiddleware } from './middlewares/security/ipTracker';
+import { throttlingMiddleware } from './middlewares/security/throttling';
 
 export class App {
 	public app: express.Application;
@@ -89,6 +91,7 @@ export class App {
 	}
 
 	private initializeMiddlewares() {
+		this.app.set('trust proxy', true); // trust first proxy for rate limiting
 		this.app.use(httpLoggerMiddleware);
 		this.app.use(hpp());
 		this.app.use(helmet());
@@ -99,6 +102,8 @@ export class App {
 		this.app.use(actuator());
 		this.app.use(rateLimitMiddleware);
 		this.app.use(traceMiddleware);
+		this.app.use(throttlingMiddleware);
+		this.app.use(ipTrackerMiddleware);
 
 		logger.info(`======= initialized middlewares =======`);
 	}

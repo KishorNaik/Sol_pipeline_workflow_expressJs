@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "Sol_pipeline_workflow_expressJs",
+			"path": "."
+		},
+		{
+			"name": "utils",
+			"path": "utils"
+		},
+		{
+			"name": "api",
+			"path": "api"
+		}
+	]
+}

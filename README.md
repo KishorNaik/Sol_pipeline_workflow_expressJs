@@ -13,14 +13,6 @@ The Pipeline Workflow provides a structured approach to executing sequential ope
 
 This workflow is ideal for transactional operations, API request handling, and multi-step processing, ensuring clarity, efficiency, and maintainability. 🚀
 
-## Setup
-To set up Pusher Channels in your environment:
-- Create a Pusher Account: Sign up at [Pusher](https://pusher.com/) and create an application.
-- Obtain Configuration Details: After setup, retrieve your App ID, Key, Secret, and Cluster from the Pusher dashboard.
-
-### Note: 
-The Pipeline Workflow is focused on structured execution of sequential operations and does not directly relate to [Pusher](https://pusher.com/) or real-time messaging solutions.
-
 #### Project Setup
 - Clone the Repository
 ```bash
@@ -57,12 +49,6 @@ cd <your-project-directory>
     # CORS Config
     ORIGIN=*
     CREDENTIALS=true
-
-    # PUSHER
-    PUSHER_APP_ID=APP_ID
-    PUSHER_KEY=KEY
-    PUSHER_SECRET=SECRET
-    PUSHER_CLUSTER=CLUSTER
 
     # Rate Limiter
     RATE_LIMITER=1000

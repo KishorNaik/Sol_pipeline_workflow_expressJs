@@ -1,13 +1,14 @@
 import { createClient, RedisClientType, RedisFunctions, RedisModules, RedisScripts } from 'redis';
 import { logger } from '../loggers';
 import { Ok, Result } from 'neverthrow';
-import { ResultError, ResultExceptionFactory } from '../../exceptions/results';
+import { ResultError } from '../../exceptions/results';
 import { StatusCodes } from 'http-status-codes';
 import { Service } from 'typedi';
 import CircuitBreaker from 'opossum';
 import IORedis from 'ioredis';
 import { ConnectionOptions } from 'bullmq';
 import { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT, REDIS_USERNAME } from '../../../../config/env';
+import { ResultFactory } from '../../miscellaneous/response';
 
 const circuitBreakerOptions = {
 	timeout: 5000, // If Redis takes longer than 5 seconds, trigger a failure
@@ -83,25 +84,24 @@ export class RedisHelper {
 
 	async get(key: string): Promise<Result<string | null | undefined, ResultError>> {
 		if (!this.isConnected)
-			return ResultExceptionFactory.error(
+			return ResultFactory.error(
 				StatusCodes.SERVICE_UNAVAILABLE,
 				'Redis Client Not Connected'
 			);
 
-		if (!key) return ResultExceptionFactory.error(StatusCodes.BAD_REQUEST, 'Key is required');
+		if (!key) return ResultFactory.error(StatusCodes.BAD_REQUEST, 'Key is required');
 		const data = await this.client?.get(key);
 		return new Ok(data);
 	}
 
 	async set(key: string, value: string): Promise<Result<undefined, ResultError>> {
 		if (!this.isConnected)
-			return ResultExceptionFactory.error(
+			return ResultFactory.error(
 				StatusCodes.SERVICE_UNAVAILABLE,
 				'Redis Client Not Connected'
 			);
-		if (!key) return ResultExceptionFactory.error(StatusCodes.BAD_REQUEST, 'Key is required');
-		if (!value)
-			return ResultExceptionFactory.error(StatusCodes.BAD_REQUEST, 'Value is required');
+		if (!key) return ResultFactory.error(StatusCodes.BAD_REQUEST, 'Key is required');
+		if (!value) return ResultFactory.error(StatusCodes.BAD_REQUEST, 'Value is required');
 
 		await this.client?.set(key, value);
 		return new Ok(undefined);

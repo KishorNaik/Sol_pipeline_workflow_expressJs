@@ -19,7 +19,9 @@
 			"settings": {
 				"terminal.integrated.shell.linux": "/bin/bash",
 				"debug.node.autoAttach": "smart",
-				"editor.formatOnSave": true
+				"editor.formatOnSave": true,
+				"javascript.preferences.importModuleSpecifier": "relative",
+				"typescript.preferences.importModuleSpecifier": "relative"
 			},
 			"extensions": [
 				"formulahendry.auto-close-tag",

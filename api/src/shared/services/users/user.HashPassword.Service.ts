@@ -1,9 +1,6 @@
-import { saltRounds } from '@kishornaik/utils';
-import { ResultError, ResultExceptionFactory } from '@kishornaik/utils';
+import { Err, Ok, Result, saltRounds, Service, StatusCodes } from '@kishornaik/utils';
+import { ResultError, ResultFactory } from '@kishornaik/utils';
 import * as bcrypt from 'bcrypt';
-import { StatusCodes } from 'http-status-codes';
-import { Err, Ok, Result } from 'neverthrow';
-import { Service } from 'typedi';
 
 export interface IHashPasswordResult {
 	hash: string;
@@ -42,7 +39,7 @@ export class HashPasswordService implements IHashPasswordService {
 
 			return new Ok(result); // hashedPassword;
 		} catch (ex) {
-			return ResultExceptionFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, ex.message);
+			return ResultFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, ex.message);
 		}
 	}
 
@@ -63,7 +60,7 @@ export class HashPasswordService implements IHashPasswordService {
 
 			return new Ok(match); // match;
 		} catch (ex) {
-			return ResultExceptionFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, ex.message);
+			return ResultFactory.error(StatusCodes.INTERNAL_SERVER_ERROR, ex.message);
 		}
 	}
 }

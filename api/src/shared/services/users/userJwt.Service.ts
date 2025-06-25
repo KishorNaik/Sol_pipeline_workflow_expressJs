@@ -1,9 +1,6 @@
-import { REFRESH_SECRET_KEY, SECRET_KEY } from '@/config';
-import { StatusCodes } from 'http-status-codes';
+import { REFRESH_SECRET_KEY, SECRET_KEY } from '@/config/env';
 import jwt from 'jsonwebtoken';
-import { Err, Ok, Result } from 'neverthrow';
-import Container, { Service } from 'typedi';
-import { ResultError } from '@kishornaik/utils';
+import { Container, Err, Ok, Result, ResultError, Service, StatusCodes } from '@kishornaik/utils';
 
 export type tokenTuples = [accessToken: string, refreshToken: string];
 

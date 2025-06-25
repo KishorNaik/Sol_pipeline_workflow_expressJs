@@ -1,6 +1,5 @@
 import { HttpError } from 'routing-controllers';
-import { DataResponse, DataResponseFactory } from '@kishornaik/utils';
-import { StatusCodes } from 'http-status-codes';
+import { DataResponse, DataResponseFactory, StatusCodes } from '@kishornaik/utils';
 
 export class HttpException extends HttpError {
 	public status: number;
@@ -18,7 +17,7 @@ export class HttpExceptionFactory {
 		errorMessage: string,
 		statusCode: StatusCodes
 	): DataResponse<TResult> {
-		return DataResponseFactory.Response<TResult>(false, statusCode, undefined, errorMessage);
+		return DataResponseFactory.response<TResult>(false, statusCode, undefined, errorMessage);
 	}
 }
 
@@ -30,7 +29,7 @@ export class QueryException {
 		errorMessage: string,
 		statusCode: StatusCodes
 	): DataResponse<TResult> {
-		return DataResponseFactory.Response<TResult>(false, statusCode, undefined, errorMessage);
+		return DataResponseFactory.response<TResult>(false, statusCode, undefined, errorMessage);
 	}
 }
 
@@ -42,6 +41,6 @@ export class CommandException {
 		errorMessage: string,
 		statusCode: StatusCodes
 	): DataResponse<TResult> {
-		return DataResponseFactory.Response<TResult>(false, statusCode, undefined, errorMessage);
+		return DataResponseFactory.response<TResult>(false, statusCode, undefined, errorMessage);
 	}
 }

@@ -3,7 +3,7 @@ Command:
 npx ts-node-dev --inspect=4321 --pretty --transpile-only -r tsconfig-paths/register src/zone/tools/aes/index.ts
 */
 
-import { ENCRYPTION_KEY } from '@/config';
+import { ENCRYPTION_KEY } from '@/config/env';
 import { AES } from '@kishornaik/utils';
 
 //console.log('Hello World!');

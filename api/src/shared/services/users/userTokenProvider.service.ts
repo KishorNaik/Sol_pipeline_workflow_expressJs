@@ -1,11 +1,6 @@
 import { Request } from 'express';
-import { Service } from 'typedi';
 import jwt from 'jsonwebtoken';
-import { HttpException } from '@/shared/utils/exceptions/http';
-import { Result } from 'neverthrow';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { ParsedQs } from 'qs';
-import { SECRET_KEY } from '@/config';
+import { Service } from '@kishornaik/utils';
 
 export interface IClaims {
 	id: string;
