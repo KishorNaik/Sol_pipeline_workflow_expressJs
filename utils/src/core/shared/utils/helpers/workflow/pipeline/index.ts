@@ -69,7 +69,7 @@ export class PipelineWorkflow {
 		} catch (ex) {
 			const error = ex as Error | PipelineWorkflowException;
 			this._logger.error(
-				`[Pipeline Step:ERROR] step name: ${error?.name} || error message: ${error.message} || error stack trace: ${error?.stack}`
+				`[Pipeline Step:ERROR] step name: ${name ?? error?.name} || error message: ${error.message} || error stack trace: ${error?.stack}`
 			);
 			throw error;
 		}
