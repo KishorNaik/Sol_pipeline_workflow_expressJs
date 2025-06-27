@@ -7,8 +7,12 @@ export class ResultFactory {
 		return new Ok(data);
 	}
 
-	public static error<T>(statusCode: StatusCodes, message: string, stackTrace?: string): Result<T, ResultError> {
-		return new Err(new ResultError(statusCode, message));
+	public static error<T>(
+		statusCode: StatusCodes,
+		message: string,
+		stackTrace?: string
+	): Result<T, ResultError> {
+		return new Err(new ResultError(statusCode, message, stackTrace));
 	}
 
 	public static errorInstance<T>(resultError: ResultError): Result<T, ResultError> {

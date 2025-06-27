@@ -5,6 +5,6 @@ export class ResultError {
 	constructor(
 		public statusCode: StatusCodes,
 		public message: string,
-    public stackTrace?: string
+		public stackTrace?: string
 	) {}
 }

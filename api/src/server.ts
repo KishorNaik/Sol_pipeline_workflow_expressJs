@@ -9,7 +9,7 @@ import { pusherRunner } from './shared/utils/helpers/pusher';
 ValidateEnv();
 
 const setDatabase = (): Promise<void> => {
-  // Set Database Here
+	// Set Database Here
 	return Promise.resolve();
 };
 

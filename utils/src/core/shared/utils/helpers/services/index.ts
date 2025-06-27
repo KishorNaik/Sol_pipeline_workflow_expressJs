@@ -1,5 +1,6 @@
 import { Result } from 'neverthrow';
 import { ResultError } from '../../exceptions/results';
+import { VoidResult } from '../../miscellaneous/voidResult';
 
 export interface IServiceHandlerAsync<TParams, TResult> {
 	handleAsync(params: TParams): Promise<Result<TResult, ResultError>>;
@@ -10,11 +11,11 @@ export interface IServiceHandlerNoParamsAsync<TResult> {
 }
 
 export interface IServiceHandlerVoidAsync<TParams> {
-	handleAsync(params: TParams): Promise<Result<undefined, ResultError>>;
+	handleAsync(params: TParams): Promise<Result<VoidResult, ResultError>>;
 }
 
 export interface IServiceHandlerNoParamsVoidAsync {
-	handleAsync(): Promise<Result<undefined, ResultError>>;
+	handleAsync(): Promise<Result<VoidResult, ResultError>>;
 }
 
 export interface IServiceHandler<TParams, TResult> {
@@ -22,7 +23,7 @@ export interface IServiceHandler<TParams, TResult> {
 }
 
 export interface IServiceHandlerVoid<TParams> {
-	handle(params: TParams): Result<undefined, ResultError>;
+	handle(params: TParams): Result<VoidResult, ResultError>;
 }
 
 export interface IServiceHandlerNoParams<TResult> {
@@ -30,5 +31,5 @@ export interface IServiceHandlerNoParams<TResult> {
 }
 
 export interface IServiceHandlerNoParamsVoid {
-	handle(): Result<undefined, ResultError>;
+	handle(): Result<VoidResult, ResultError>;
 }

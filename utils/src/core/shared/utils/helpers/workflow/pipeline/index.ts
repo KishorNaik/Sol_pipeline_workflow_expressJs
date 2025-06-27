@@ -4,6 +4,7 @@ import { PipelineWorkflowException } from '../exception';
 import { StatusCodes } from 'http-status-codes';
 import { Result } from 'neverthrow';
 import { ResultError } from '../../../exceptions/results';
+import { isVoidResult } from '../../../miscellaneous/voidResult';
 
 export type StepDefinition<T> = {
 	name: string;
@@ -39,26 +40,37 @@ export class PipelineWorkflow {
 
 			if (result.isOk()) {
 				const value = result.value;
+
+				if (isVoidResult(value)) {
+					this._logger.info(`[Pipeline Step:OK] step name: ${name}`);
+					return value;
+				}
+
+				if (!value)
+					throw new PipelineWorkflowException(
+						name,
+						false,
+						StatusCodes.NO_CONTENT,
+						`No result found for step ${name}`
+					);
+
 				this._context?.set(name, value);
 				this._logger.info(`[Pipeline Step:OK] step name: ${name}`);
 				return value;
 			} else {
-				this._logger.error(
-					`[Pipeline Step:ERROR] step name: ${name} || error message: ${result.error.message} || error stack trace: ${result.error?.stackTrace}`
-				);
 				throw new PipelineWorkflowException(
+					name,
 					false,
 					result.error.statusCode,
-					result.error.message
+					result.error.message,
+					result.error.stackTrace
 				);
 			}
 		} catch (ex) {
 			const error = ex as Error | PipelineWorkflowException;
-			if (!(error instanceof PipelineWorkflowException)) {
-				this._logger.error(
-					`[Pipeline Step:EXCEPTION] step name: ${name} || error message: ${error.message} || error stack trace: ${error?.stack}`
-				);
-			}
+			this._logger.error(
+				`[Pipeline Step:ERROR] step name: ${error?.name} || error message: ${error.message} || error stack trace: ${error?.stack}`
+			);
 			throw error;
 		}
 	}
@@ -79,6 +91,7 @@ export class PipelineWorkflow {
 	}> {
 		if (!Array.isArray(steps) || steps.length === 0) {
 			throw new PipelineWorkflowException(
+				`non-step`,
 				false,
 				StatusCodes.BAD_REQUEST,
 				'Steps must be a non-empty array'
@@ -97,16 +110,14 @@ export class PipelineWorkflow {
 			return results as any;
 		} catch (ex) {
 			const error = ex as Error | PipelineWorkflowException;
-			if (!(error instanceof PipelineWorkflowException)) {
-				this._logger.error(
-					`[Pipeline Parallel:EXCEPTION] || error message: ${error.message} || error stack trace: ${error?.stack}`
-				);
-			}
+			this._logger.error(
+				`[Pipeline Step:ERROR] step name: ${error?.name} || error message: ${error.message} || error stack trace: ${error?.stack}`
+			);
 			throw error;
 		}
 	}
 
-  public async ifElseStep<TResult>(
+	public async ifElseStep<TResult>(
 		name: string,
 		condition: (context: Map<string, any>) => boolean,
 		ifAction: () => Promise<Result<TResult, ResultError>>,
@@ -125,24 +136,31 @@ export class PipelineWorkflow {
 			return result;
 		} catch (ex) {
 			const error = ex as Error | PipelineWorkflowException;
-			if (!(error instanceof PipelineWorkflowException)) {
-				this._logger.error(
-					`[Pipeline IfElse Step:EXCEPTION] step name: ${name} || error message: ${error.message} || stack trace: ${error?.stack}`
-				);
-			}
+			this._logger.error(
+				`[Pipeline Step:ERROR] step name: ${name ?? error?.name} || error message: ${error.message} || error stack trace: ${error?.stack}`
+			);
 			throw error;
 		}
 	}
 
 	public getResult<TResult>(name: string): TResult {
-		if (!this._context.has(name)) {
-			throw new PipelineWorkflowException(
-				false,
-				StatusCodes.INTERNAL_SERVER_ERROR,
-				`Step ${name} not found`
-			);
-		}
+		try {
+			if (!this._context.has(name)) {
+				throw new PipelineWorkflowException(
+					name,
+					false,
+					StatusCodes.INTERNAL_SERVER_ERROR,
+					`Step ${name} not found`
+				);
+			}
 
-		return this?._context?.get(name) as TResult;
+			return this?._context?.get(name) as TResult;
+		} catch (ex) {
+			const error = ex as Error | PipelineWorkflowException;
+			this._logger.error(
+				`[Pipeline Step:ERROR] step name: ${name ?? error?.name} || error message: ${error.message} || error stack trace: ${error?.stack}`
+			);
+			throw error;
+		}
 	}
 }

@@ -35,3 +35,4 @@ export * from '../../shared/utils/helpers/kafka/index';
 export * from '../../shared/utils/helpers/pusher/index';
 export * from '../../shared/utils/helpers/workflow/index';
 export * from '../../shared/utils/miscellaneous/response/index';
+export * from '../../shared/utils/miscellaneous/voidResult';

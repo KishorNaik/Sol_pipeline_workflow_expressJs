@@ -4,25 +4,24 @@ import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 // #region Request Dto
 export class FeaturePostRequestDto {
-
-  @IsString()
+	@IsString()
 	@IsNotEmpty()
 	@IsSafeString({ message: 'title must not contain HTML or JavaScript code' })
 	@Length(2, 80, { message: 'title must be between 2 and 80 characters' })
 	@Type(() => String)
-  public title: string;
+	public title: string;
 
-  @IsString()
+	@IsString()
 	@IsNotEmpty()
 	@IsSafeString({ message: 'description must not contain HTML or JavaScript code' })
-  @Length(2, 300, { message: 'description must be between 2 and 300 characters' })
+	@Length(2, 300, { message: 'description must be between 2 and 300 characters' })
 	@Type(() => String)
-  public description: string;
+	public description: string;
 }
 // #endregion
 
 // #region Response Dto
-export class FeaturePostResponseDto{
-  public message:string;
+export class FeaturePostResponseDto {
+	public message: string;
 }
 // #endregion

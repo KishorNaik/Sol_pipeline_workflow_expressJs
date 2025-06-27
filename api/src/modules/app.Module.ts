@@ -1,3 +1,3 @@
-import { demoModule } from "./demo/demo.Module";
+import { demoModule } from './demo/demo.Module';
 
 export const modulesFederation: Function[] = [...demoModule];

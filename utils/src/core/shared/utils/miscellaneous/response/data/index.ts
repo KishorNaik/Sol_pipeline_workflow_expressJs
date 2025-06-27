@@ -56,12 +56,12 @@ export class DataResponseFactory {
 		error: Error | PipelineWorkflowException,
 		queryRunner?: QueryRunner
 	): Promise<DataResponse<TData>> {
-		if (error instanceof PipelineWorkflowException) {
-			if (queryRunner?.isTransactionActive) {
-				await queryRunner.rollbackTransaction();
-			}
-			return DataResponseFactory.error(error.statusCode, error.message);
+		if (queryRunner?.isTransactionActive) {
+			await queryRunner.rollbackTransaction();
 		}
+
+		if (error instanceof PipelineWorkflowException)
+			return DataResponseFactory.error(error.statusCode, error.message);
 
 		return DataResponseFactory.error(
 			StatusCodes.INTERNAL_SERVER_ERROR,
